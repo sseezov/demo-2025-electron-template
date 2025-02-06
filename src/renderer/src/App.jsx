@@ -1,9 +1,11 @@
 import { useEffect } from 'react'
 import electronLogo from './assets/electron.svg'
 
+const ipcr = window.electron.ipcRenderer
+
 function App() {
   useEffect(() => {
-    (async (data="test") => await window.api.foo(data))()
+    (async (data="test") => await ipcr.invoke('sendSignal', data))()
   }, [])
 
 
