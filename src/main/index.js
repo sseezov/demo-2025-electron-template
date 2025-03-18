@@ -3,6 +3,8 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 
+import connectDB from './db';
+
 async function foo(event, data) {
   try {
     console.log(data)
@@ -41,8 +43,10 @@ function createWindow() {
   }
 }
 
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   electronApp.setAppUserModelId('com.electron')
+
+  global.dbclient = await connectDB();
 
   ipcMain.handle('sendSignal', foo)
 
